@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Login | Travelly</title>
+
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<main class="auth-page">
+
+  <div class="auth-card">
+
+    <div class="auth-header">
+
+      <span class="auth-label">WELCOME BACK</span>
+
+      <h1>Continue your<br><span>journey.</span></h1>
+
+      <p>
+        Login to discover destinations tailored to you.
+      </p>
+
+    </div>
+
+    <form th:action="@{/login}" method="post" class="auth-form">
+
+      <div class="form-group">
+        <label for="username">Username</label>
+
+        <input type="text"
+               id="username"
+               name="username"
+               placeholder="Enter your username"
+               required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+
+        <input type="password"
+               id="password"
+               name="password"
+               placeholder="Enter your password"
+               required>
+      </div>
+
+      <p th:if="${error}"
+         th:text="${error}"
+         class="auth-error">
+      </p>
+
+      <button type="submit" class="auth-button">
+        Login
+        <span>→</span>
+      </button>
+
+    </form>
+
+    <div class="auth-footer">
+
+      <span>Don't have an account?</span>
+
+      <a th:href="@{/register}">
+        Create an account
+      </a>
+
+    </div>
+
+  </div>
+
+</main>
+
+</body>
+</html>

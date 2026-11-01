@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${destination.id == null}
+        ? 'Add Destination | Travelly'
+        : 'Edit Destination | Travelly'">
+        Destination Form
+    </title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<main class="destination-form-page">
+
+    <section class="destination-form-header">
+
+        <span class="section-label"
+              th:text="${destination.id == null}
+                  ? 'CREATE DESTINATION'
+                  : 'UPDATE DESTINATION'">
+            CREATE DESTINATION
+        </span>
+
+        <h1 th:if="${destination.id == null}">
+            Add a new<br>
+            <span>destination.</span>
+        </h1>
+
+        <h1 th:unless="${destination.id == null}">
+            Edit your<br>
+            <span>destination.</span>
+        </h1>
+
+        <p>
+            Add the details of the destination so it can be
+            used throughout the travel recommendation system.
+        </p>
+
+    </section>
+
+
+    <section class="destination-form-card">
+
+        <form th:object="${destination}"
+              th:action="${destination.id == null}
+                  ? @{/destinations}
+                  : @{/destinations/{id}(id=${destination.id})}"
+              method="post"
+              class="destination-form">
+
+
+            <!-- Name -->
+
+            <div class="destination-form-field">
+
+                <label for="name">
+                    Destination Name
+                </label>
+
+                <span class="field-description">
+                    Enter the name of the destination
+                </span>
+
+                <input type="text"
+                       id="name"
+                       th:field="*{name}"
+                       placeholder="e.g. Paris"
+                       required>
+
+            </div>
+
+
+            <!-- Country -->
+
+            <div class="destination-form-field">
+
+                <label for="country">
+                    Country
+                </label>
+
+                <span class="field-description">
+                    Which country is it located in?
+                </span>
+
+                <input type="text"
+                       id="country"
+                       th:field="*{country}"
+                       placeholder="e.g. France"
+                       required>
+
+            </div>
+
+            <!-- Image -->
+
+            <div class="destination-form-field full-width">
+
+                <label for="imageUrl">
+                    Destination Image
+                </label>
+
+                <span class="field-description">
+        Enter the image path for this destination
+               </span>
+
+                <input type="text"
+                       id="imageUrl"
+                       th:field="*{imageUrl}"
+                       placeholder="e.g. /images/paris.jpg">
+
+            </div>
+            <!-- Description -->
+
+            <div class="destination-form-field full-width">
+
+                <label for="description">
+                    Description
+                </label>
+
+                <span class="field-description">
+                    Give a short description of the destination
+                </span>
+
+                <textarea id="description"
+                          th:field="*{description}"
+                          placeholder="Describe what makes this destination special...">
+                </textarea>
+
+            </div>
+
+
+            <!-- Average Daily Cost -->
+
+            <div class="destination-form-field">
+
+                <label for="averageDailyCost">
+                    Average Daily Cost
+                </label>
+
+                <span class="field-description">
+                    Estimated cost per day
+                </span>
+
+                <div class="destination-input-wrapper">
+
+                    <input type="number"
+                           id="averageDailyCost"
+                           th:field="*{averageDailyCost}"
+                           step="0.01"
+                           min="0"
+                           placeholder="e.g. 120">
+
+                    <span class="destination-input-suffix">
+                        €
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- Recommended Duration -->
+
+            <div class="destination-form-field">
+
+                <label for="recommendedDuration">
+                    Recommended Duration
+                </label>
+
+                <span class="field-description">
+                    Ideal number of days for the trip
+                </span>
+
+                <div class="destination-input-wrapper">
+
+                    <input type="number"
+                           id="recommendedDuration"
+                           th:field="*{recommendedDuration}"
+                           min="1"
+                           placeholder="e.g. 5">
+
+                    <span class="destination-input-suffix">
+                        days
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- Travel Type -->
+
+            <div class="destination-form-field">
+
+                <label for="travelType">
+                    Travel Style
+                </label>
+
+                <span class="field-description">
+                    What type of travel experience?
+                </span>
+
+                <select id="travelType"
+                        th:field="*{travelType}">
+
+                    <option value="">
+                        Select travel style
+                    </option>
+
+                    <option
+                            th:each="type : ${T(com.travelrecommendation.travelrecommendationsystem.model.enums.TravelType).values()}"
+                            th:value="${type}"
+                            th:text="${type}">
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- Season -->
+
+            <div class="destination-form-field">
+
+                <label for="season">
+                    Preferred Season
+                </label>
+
+                <span class="field-description">
+                    Best season to visit
+                </span>
+
+                <select id="season"
+                        th:field="*{season}">
+
+                    <option value="">
+                        Select season
+                    </option>
+
+                    <option
+                            th:each="season : ${T(com.travelrecommendation.travelrecommendationsystem.model.enums.Season).values()}"
+                            th:value="${season}"
+                            th:text="${season}">
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- Submit -->
+
+            <div class="destination-form-actions">
+
+                <a th:href="@{/destinations}"
+                   class="destination-cancel-button">
+                    Cancel
+                </a>
+
+                <button type="submit"
+                        class="destination-submit-button">
+
+                    <span
+                            th:text="${destination.id == null}
+                            ? 'Save Destination'
+                            : 'Update Destination'">
+                        Save Destination
+                    </span>
+
+                    <span class="submit-arrow">
+                        →
+                    </span>
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </section>
+
+</main>
+
+</body>
+</html>

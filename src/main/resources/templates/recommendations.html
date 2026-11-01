@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Recommendations | Travelly</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<main class="recommendations-page">
+
+    <!-- PAGE HEADER -->
+    <section class="recommendations-header">
+
+        <span class="section-label">PERSONALIZED FOR YOU</span>
+
+        <h1>
+            Your perfect
+            <span>destinations.</span>
+        </h1>
+
+        <p>
+            Based on your preferences, here are the destinations
+            that best match your travel style.
+        </p>
+
+    </section>
+
+
+    <!-- ERROR -->
+    <p th:if="${error}"
+       th:text="${error}"
+       class="recommendations-error">
+    </p>
+
+
+    <!-- EMPTY STATE -->
+    <section class="empty-recommendations"
+             th:if="${recommendations.isEmpty()}">
+
+        <div class="empty-icon">✦</div>
+
+        <h2>No destinations found</h2>
+
+        <p>
+            We couldn't find destinations matching your current criteria.
+            Try adjusting your preferences.
+        </p>
+
+        <a th:href="@{/recommendations}" class="btn-explore">
+            Try Again
+            <span>→</span>
+        </a>
+
+    </section>
+
+
+    <!-- DESTINATION GRID -->
+    <section class="recommendations-grid"
+             th:if="${!recommendations.isEmpty()}">
+
+        <article class="recommendation-card"
+                 th:each="scoredDestination : ${recommendations}">
+
+            <!-- IMAGE -->
+            <div class="recommendation-image">
+
+                <img th:src="${scoredDestination.destination.imageUrl}"
+                     th:alt="${scoredDestination.destination.name}">
+
+                <!-- SCORE -->
+                <div class="score-badge">
+
+                    <span>★</span>
+
+                    <strong th:text="${scoredDestination.score}">
+                        0
+                    </strong>
+
+                    Match
+
+                </div>
+
+            </div>
+
+
+            <!-- CARD CONTENT -->
+            <div class="recommendation-content">
+
+                <span class="recommendation-country"
+                      th:text="${scoredDestination.destination.country}">
+                    Country
+                </span>
+
+                <h2 th:text="${scoredDestination.destination.name}">
+                    Destination
+                </h2>
+
+                <p class="recommendation-description"
+                   th:text="${scoredDestination.destination.description}">
+                    Destination description
+                </p>
+
+
+                <!-- TAGS -->
+                <div class="recommendation-tags">
+
+                    <span class="destination-tag"
+                          th:text="${scoredDestination.destination.travelType}">
+                        Travel Type
+                    </span>
+
+                    <span class="destination-tag"
+                          th:text="${scoredDestination.destination.season}">
+                        Season
+                    </span>
+
+                </div>
+
+
+                <!-- DETAILS -->
+                <div class="recommendation-details">
+
+                    <div class="recommendation-detail">
+
+                        <span class="detail-label">
+                            FROM
+                        </span>
+
+                        <strong>
+                            <span th:text="${scoredDestination.destination.averageDailyCost}">
+                                0
+                            </span>
+                            € / day
+                        </strong>
+
+                    </div>
+
+
+                    <div class="recommendation-detail">
+
+                        <span class="detail-label">
+                            IDEAL STAY
+                        </span>
+
+                        <strong>
+                            <span th:text="${scoredDestination.destination.recommendedDuration}">
+                                0
+                            </span>
+                            days
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <!-- FAVORITE ACTION -->
+                <div class="favorite-form">
+
+                    <!-- NOT FAVORITE -->
+                    <form th:action="@{/favorites/add}"
+                          method="post"
+                          th:if="${!favoriteDestinationIds.contains(scoredDestination.destination.id)}">
+
+                        <input type="hidden"
+                               name="destinationId"
+                               th:value="${scoredDestination.destination.id}">
+
+                        <button type="submit"
+                                class="favorite-button">
+
+                            <span class="heart">
+                                ♡
+                            </span>
+
+                            Add to Favorites
+
+                        </button>
+
+                    </form>
+
+
+                    <!-- ALREADY FAVORITE -->
+                    <div th:if="${favoriteDestinationIds.contains(scoredDestination.destination.id)}"
+                         class="favorite-button favorite-active">
+
+                        <span class="heart">
+                            ♥
+                        </span>
+
+                        Added to Favorites
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </article>
+
+    </section>
+
+
+    <!-- BOTTOM ACTIONS -->
+    <div class="recommendations-actions"
+         th:if="${!recommendations.isEmpty()}">
+
+        <a th:href="@{/recommendations}"
+           class="btn-explore">
+
+            Adjust Preferences
+            <span>→</span>
+
+        </a>
+
+        <a th:href="@{/favorites}"
+           class="favorites-link">
+
+            View My Favorites
+            <span>♡</span>
+
+        </a>
+
+    </div>
+
+</main>
+</body>
+</html>

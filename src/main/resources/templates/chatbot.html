@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Travel Assistant</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
+
+</head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+
+<main class="chatbot-page">
+
+
+    <!-- =========================================
+         HEADER
+         ========================================= -->
+
+    <section class="chatbot-header">
+
+        <span class="recommendation-form-label">
+            TRAVEL ASSISTANT
+        </span>
+
+        <h1>
+            Plan your next trip
+            <span>with AI.</span>
+        </h1>
+
+        <p>
+            Tell me what kind of trip you are looking for
+            and I will help you find suitable destinations.
+        </p>
+
+    </section>
+
+
+    <!-- =========================================
+         CHAT CARD
+         ========================================= -->
+
+    <section class="chatbot-card">
+
+
+        <!-- =========================================
+             MESSAGES
+             ========================================= -->
+
+        <div class="chatbot-messages">
+
+            <!-- Conversation history -->
+
+            <div th:each="chatMessage : ${chatMessages}"
+                 class="chat-message"
+                 th:classappend="${chatMessage.sender == 'USER'} ? ' user' : ' bot'">
+
+                <strong
+                        th:text="${chatMessage.sender == 'USER'}
+                        ? 'You'
+                        : 'Travel Assistant'">
+                    Travel Assistant
+                </strong>
+
+                <span
+                        th:text="${chatMessage.message}">
+                    Message
+                </span>
+
+            </div>
+
+
+            <!-- =========================================
+                 RECOMMENDATIONS
+                 ========================================= -->
+
+            <section class="chatbot-recommendations"
+                     th:if="${recommendations != null
+                             and !recommendations.isEmpty()}">
+
+                <div class="recommendations-header">
+
+                    <span class="recommendation-form-label">
+                        RECOMMENDED FOR YOU
+                    </span>
+
+                    <h2>
+                        Destinations you might like
+                    </h2>
+
+                    <p>
+                        These destinations were selected based on
+                        your preferences.
+                    </p>
+
+                </div>
+
+
+                <!-- Destination cards -->
+
+                <div class="destination-grid">
+
+                    <article class="destination-card"
+                             th:each="destination : ${recommendations}">
+
+
+                        <!-- Destination image -->
+
+                        <div class="destination-image">
+
+                            <img
+                                    th:if="${destination.imageUrl != null
+                                            and !destination.imageUrl.isEmpty()}"
+                                    th:src="${destination.imageUrl}"
+                                    th:alt="${destination.name}">
+
+                            <div
+                                    th:if="${destination.imageUrl == null
+                                            or destination.imageUrl.isEmpty()}"
+                                    class="destination-image-placeholder">
+
+                                <span>✈️</span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Destination information -->
+
+                        <div class="destination-content">
+
+
+                            <!-- Title -->
+
+                            <div class="destination-title">
+
+                                <h3
+                                        th:text="${destination.name}">
+                                    Paris
+                                </h3>
+
+                                <span
+                                        th:text="${destination.country}">
+                                    France
+                                </span>
+
+                            </div>
+
+
+                            <!-- Description -->
+
+                            <p
+                                    class="destination-description"
+                                    th:text="${destination.description}">
+                                Famous for art, culture,
+                                architecture and museums.
+                            </p>
+
+
+                            <!-- Destination details -->
+
+                            <div class="destination-meta">
+
+
+                                <!-- Daily cost -->
+
+                                <div class="destination-meta-item">
+
+                                    <span class="meta-label">
+                                        DAILY COST
+                                    </span>
+
+                                    <strong>
+                                        €
+                                        <span
+                                                th:text="${destination.averageDailyCost}">
+                                            100
+                                        </span>
+                                    </strong>
+
+                                </div>
+
+
+                                <!-- Recommended duration -->
+
+                                <div class="destination-meta-item">
+
+                                    <span class="meta-label">
+                                        RECOMMENDED
+                                    </span>
+
+                                    <strong>
+
+                                        <span
+                                                th:text="${destination.recommendedDuration}">
+                                            5
+                                        </span>
+
+                                        days
+
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+                </div>
+
+            </section>
+
+        </div>
+
+
+        <!-- =========================================
+             INPUT FORM
+             ========================================= -->
+
+        <form class="chatbot-form"
+              th:action="@{/chatbot}"
+              method="post">
+
+            <input
+                    type="text"
+                    name="message"
+                    class="chatbot-input"
+                    placeholder="Tell me what kind of trip you want..."
+                    autocomplete="off"
+                    required
+            >
+
+            <button
+                    type="submit"
+                    class="chatbot-send">
+
+                Send
+
+                <span>→</span>
+
+            </button>
+
+        </form>
+
+
+    </section>
+
+</main>
+
+</body>
+
+</html>

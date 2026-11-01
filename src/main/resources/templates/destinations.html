@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Destinations | Travelly</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<main class="destinations-page">
+
+    <section class="destinations-header">
+
+        <div>
+            <span class="section-label">EXPLORE THE WORLD</span>
+
+            <h1>
+                Discover your next
+                <span>destination.</span>
+            </h1>
+
+            <p>
+                Explore our collection of destinations and find
+                the perfect place for your next journey.
+            </p>
+        </div>
+
+        <a th:href="@{/destinations/create}"
+           class="add-destination-button">
+            <span>+</span>
+            Add Destination
+        </a>
+
+    </section>
+
+
+    <section class="destinations-table-section">
+
+        <div class="destinations-table-wrapper">
+
+            <table class="destinations-table">
+
+                <thead>
+                <tr>
+                    <th>Destination</th>
+                    <th>Country</th>
+                    <th>Daily Cost</th>
+                    <th>Ideal Stay</th>
+                    <th>Travel Style</th>
+                    <th>Season</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                <tr th:each="destination : ${destinations}">
+
+                    <td>
+                        <div class="destination-name">
+                            <strong th:text="${destination.name}">
+                                Destination
+                            </strong>
+
+                            <span>
+                                Explore this destination
+                            </span>
+                        </div>
+                    </td>
+
+                    <td>
+                        <span class="country-name"
+                              th:text="${destination.country}">
+                            Country
+                        </span>
+                    </td>
+
+                    <td>
+                        <strong class="cost-value"
+                                th:text="${destination.averageDailyCost} + ' €'">
+                            0 €
+                        </strong>
+                        <span class="table-muted">/ day</span>
+                    </td>
+
+                    <td>
+                        <span class="duration-badge"
+                              th:text="${destination.recommendedDuration} + ' days'">
+                            5 days
+                        </span>
+                    </td>
+
+                    <td>
+                        <span class="table-tag"
+                              th:text="${destination.travelType}">
+                            CULTURAL
+                        </span>
+                    </td>
+
+                    <td>
+                        <span class="table-tag"
+                              th:text="${destination.season}">
+                            SUMMER
+                        </span>
+                    </td>
+
+                    <td>
+
+                        <div class="destination-actions">
+
+                            <a th:href="@{/destinations/{id}(id=${destination.id})}"
+                               class="table-action view-action">
+                                View
+                            </a>
+
+                            <a th:href="@{/destinations/edit/{id}(id=${destination.id})}"
+                               class="table-action edit-action">
+                                Edit
+                            </a>
+
+                            <form th:action="@{/destinations/delete/{id}(id=${destination.id})}"
+                                  method="post">
+
+                                <button type="submit"
+                                        class="table-action delete-action">
+                                    Delete
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+</main>
+<div class="travel-assistant">
+    <a th:href="@{/chatbot}">
+        <span>💬</span>
+        Travel Assistant
+    </a>
+</div>
+</body>
+</html>

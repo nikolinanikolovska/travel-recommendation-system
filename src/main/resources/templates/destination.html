@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${destination.name} + ' | Travelly'">
+        Destination | Travelly
+    </title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<main class="destination-details-page">
+
+    <section class="destination-details-header">
+
+        <div>
+            <span class="section-label"
+                  th:text="${destination.country}">
+                COUNTRY
+            </span>
+
+            <h1 th:text="${destination.name}">
+                Destination
+            </h1>
+
+            <p th:text="${destination.description}">
+                Destination description
+            </p>
+        </div>
+
+    </section>
+
+
+    <section class="destination-details-card">
+
+        <div class="destination-details-grid">
+
+            <div class="destination-detail-item">
+                <span class="detail-label">
+                    COUNTRY
+                </span>
+
+                <strong th:text="${destination.country}">
+                    France
+                </strong>
+            </div>
+
+
+            <div class="destination-detail-item">
+                <span class="detail-label">
+                    DAILY COST
+                </span>
+
+                <strong>
+                    <span th:text="${destination.averageDailyCost}">
+                        120
+                    </span>
+                    € / day
+                </strong>
+            </div>
+
+
+            <div class="destination-detail-item">
+                <span class="detail-label">
+                    IDEAL STAY
+                </span>
+
+                <strong>
+                    <span th:text="${destination.recommendedDuration}">
+                        5
+                    </span>
+                    days
+                </strong>
+            </div>
+
+
+            <div class="destination-detail-item">
+                <span class="detail-label">
+                    TRAVEL STYLE
+                </span>
+
+                <span class="destination-detail-tag"
+                      th:text="${destination.travelType}">
+                    CULTURAL
+                </span>
+            </div>
+
+
+            <div class="destination-detail-item">
+                <span class="detail-label">
+                    BEST SEASON
+                </span>
+
+                <span class="destination-detail-tag"
+                      th:text="${destination.season}">
+                    SUMMER
+                </span>
+            </div>
+
+        </div>
+
+
+        <div class="destination-description-section">
+
+            <span class="detail-label">
+                ABOUT THIS DESTINATION
+            </span>
+
+            <p th:text="${destination.description}">
+                Destination description
+            </p>
+
+        </div>
+
+
+        <div class="destination-details-actions">
+
+            <a th:href="@{/destinations}"
+               class="destination-back-button">
+                ← Back to Destinations
+            </a>
+
+            <a th:href="@{/destinations/edit/{id}(id=${destination.id})}"
+               class="destination-edit-button">
+                Edit Destination
+                <span>→</span>
+            </a>
+
+        </div>
+
+    </section>
+
+</main>
+
+</body>
+</html>

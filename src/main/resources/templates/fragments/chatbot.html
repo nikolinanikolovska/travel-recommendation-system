@@ -1,0 +1,122 @@
+```html
+<!-- =========================================
+     CHATBOT FRAGMENT
+     ========================================= -->
+
+<div th:fragment="chatbot" class="chatbot-widget">
+
+    <!-- =========================================
+         CHATBOT TOGGLE BUTTON
+         ========================================= -->
+
+    <button type="button"
+            class="chatbot-toggle">
+
+        <span>💬</span>
+        Travel Assistant
+
+    </button>
+
+
+    <!-- =========================================
+         CHATBOT WINDOW
+         ========================================= -->
+
+    <div class="chatbot-window">
+
+        <!-- =========================================
+             CHATBOT HEADER
+             ========================================= -->
+
+        <div class="chatbot-window-header">
+
+            <div>
+
+                <span class="recommendation-form-label">
+                    TRAVEL ASSISTANT
+                </span>
+
+                <h3>
+                    Plan your next trip
+                </h3>
+
+            </div>
+
+            <button type="button"
+                    class="chatbot-close">
+
+                ×
+
+            </button>
+
+        </div>
+
+
+        <!-- =========================================
+             CHAT CARD
+             ========================================= -->
+
+        <section class="chatbot-card">
+
+            <!-- =========================================
+                 MESSAGES
+                 ========================================= -->
+
+            <div class="chatbot-messages">
+
+                <!--
+                    Messages will be inserted by JavaScript.
+                -->
+
+                <div id="chatbotMessages"></div>
+
+
+                <!-- =========================================
+                     RECOMMENDATIONS
+                     ========================================= -->
+
+                <div id="chatbotRecommendations"></div>
+
+            </div>
+
+
+            <!-- =========================================
+                 INPUT FORM
+                 ========================================= -->
+
+            <form class="chatbot-form"
+                  th:action="@{/chatbot}"
+                  method="post">
+
+                <input
+                        type="text"
+                        name="message"
+                        class="chatbot-input"
+                        placeholder="Tell me what kind of trip you want..."
+                        autocomplete="off"
+                        required>
+
+                <button
+                        type="submit"
+                        class="chatbot-send">
+
+                    Send
+
+                    <span>→</span>
+
+                </button>
+
+            </form>
+
+        </section>
+
+    </div>
+
+</div>
+
+<script th:src="@{/js/chatbot.js}"></script>
+
+<!-- =========================================
+     CHATBOT JAVASCRIPT
+     ========================================= -->
+```

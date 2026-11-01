@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Find Your Destination | Travelly</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<main class="recommendation-form-page">
+
+    <section class="recommendation-form-header">
+
+        <span class="section-label">PLAN YOUR JOURNEY</span>
+
+        <h1>
+            Find a destination<br>
+            <span>made for you.</span>
+        </h1>
+
+        <p>
+            Tell us what you're looking for and we'll find destinations
+            that match your budget, travel style and preferences.
+        </p>
+
+    </section>
+
+
+    <section class="recommendation-form-card">
+
+        <form th:action="@{/recommendations}"
+              th:object="${recommendationRequest}"
+              method="post"
+              class="recommendation-form">
+
+
+            <!-- BUDGET -->
+
+            <div class="recommendation-field">
+
+                <label for="budget">
+                    Budget
+                </label>
+
+                <span class="field-description">
+                    Your total budget for the trip
+                </span>
+
+                <div class="input-wrapper">
+
+                    <input type="number"
+                           id="budget"
+                           th:field="*{budget}"
+                           step="0.01"
+                           min="0"
+                           placeholder="e.g. 600">
+
+                    <span class="input-suffix">€</span>
+
+                </div>
+
+            </div>
+
+
+            <!-- DISTANCE -->
+
+            <div class="recommendation-field">
+
+                <label for="maxDistance">
+                    Maximum Distance
+                </label>
+
+                <span class="field-description">
+                    How far are you willing to travel?
+                </span>
+
+                <div class="input-wrapper">
+
+                    <input type="number"
+                           id="maxDistance"
+                           th:field="*{maxDistance}"
+                           step="0.1"
+                           min="0"
+                           placeholder="e.g. 1000">
+
+                    <span class="input-suffix">km</span>
+
+                </div>
+
+            </div>
+
+
+            <!-- DURATION -->
+
+            <div class="recommendation-field">
+
+                <label for="duration">
+                    Trip Duration
+                </label>
+
+                <span class="field-description">
+                    How many days would you like to travel?
+                </span>
+
+                <div class="input-wrapper">
+
+                    <input type="number"
+                           id="duration"
+                           th:field="*{duration}"
+                           min="1"
+                           placeholder="e.g. 5">
+
+                    <span class="input-suffix">days</span>
+
+                </div>
+
+            </div>
+
+
+            <!-- TRAVEL TYPE -->
+
+            <div class="recommendation-field">
+
+                <label for="travelType">
+                    Travel Style
+                </label>
+
+                <span class="field-description">
+                    What kind of experience are you looking for?
+                </span>
+
+                <select id="travelType"
+                        th:field="*{travelType}">
+
+                    <option value="">
+                        Any travel style
+                    </option>
+
+                    <option
+                            th:each="type : ${T(com.travelrecommendation.travelrecommendationsystem.model.enums.TravelType).values()}"
+                            th:value="${type}"
+                            th:text="${type}">
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- SEASON -->
+
+            <div class="recommendation-field">
+
+                <label for="season">
+                    Preferred Season
+                </label>
+
+                <span class="field-description">
+                    When would you like to travel?
+                </span>
+
+                <select id="season"
+                        th:field="*{season}">
+
+                    <option value="">
+                        Any season
+                    </option>
+
+                    <option
+                            th:each="season : ${T(com.travelrecommendation.travelrecommendationsystem.model.enums.Season).values()}"
+                            th:value="${season}"
+                            th:text="${season}">
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- SUBMIT -->
+
+            <button type="submit"
+                    class="recommendation-submit">
+
+                Find My Destinations
+
+                <span>→</span>
+
+            </button>
+
+        </form>
+
+    </section>
+
+</main>
+<div class="travel-assistant">
+    <a th:href="@{/chatbot}">
+        <span>💬</span>
+        Travel Assistant
+    </a>
+</div>
+</body>
+</html>

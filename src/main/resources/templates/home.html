@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Travel Recommendation System</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<main>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+
+        <div class="hero-overlay"></div>
+
+        <div class="hero-content">
+
+            <span class="hero-label">
+                TRAVEL • DISCOVER • EXPERIENCE
+            </span>
+
+            <h1>
+                Discover Your<br>
+                <span>Next Journey</span>
+            </h1>
+
+            <p>
+                Find destinations that match your preferences,
+                budget and travel style.
+            </p>
+
+            <div class="hero-buttons">
+
+                <a th:href="@{/recommendations}"
+                   class="btn btn-primary">
+                    Find My Destination
+                    <span>→</span>
+                </a>
+
+                <a th:href="@{/destinations}"
+                   class="btn btn-secondary">
+                    Explore Destinations
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- DESTINATIONS SECTION -->
+    <section class="destinations-section">
+
+        <div class="section-header">
+
+        <span class="section-label">
+            EXPLORE THE WORLD
+        </span>
+
+            <h2>
+                Find your next
+                <span>destination.</span>
+            </h2>
+
+            <p>
+                Discover places worth visiting and find inspiration
+                for your next unforgettable journey.
+            </p>
+
+        </div>
+
+
+        <div class="destinations-carousel">
+
+            <button type="button"
+                    class="destination-arrow destination-arrow-left"
+                    aria-label="Previous destinations">
+                ‹
+            </button>
+
+
+            <div class="destination-slider">
+
+                <div class="destination-grid destination-carousel-track">
+
+                    <div class="destination-card"
+                         th:each="destination : ${destinations}">
+
+                        <!-- DESTINATION IMAGE -->
+                        <div class="destination-image">
+
+                            <img th:src="${destination.imageUrl}"
+                                 th:alt="${destination.name}">
+
+                            <div class="home-favorite">
+
+                            <span th:if="${favoriteDestinationIds.contains(destination.id)}"
+                                  class="home-favorite-heart active">
+                                ♥
+                            </span>
+
+                                <span th:unless="${favoriteDestinationIds.contains(destination.id)}"
+                                      class="home-favorite-heart">
+                                ♡
+                            </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- DESTINATION INFO -->
+                        <div class="destination-info">
+
+                        <span class="destination-country"
+                              th:text="${destination.country}">
+                            Country
+                        </span>
+
+                            <h3 th:text="${destination.name}">
+                                Destination
+                            </h3>
+
+                            <p th:text="${destination.description}">
+                                Destination description
+                            </p>
+
+
+                            <div class="destination-details">
+
+                            <span>
+
+                                <strong th:text="${destination.averageDailyCost}">
+                                    0
+                                </strong>
+
+                                €/day
+
+                            </span>
+
+
+                                <span>
+
+                                <strong th:text="${destination.recommendedDuration}">
+                                    0
+                                </strong>
+
+                                days
+
+                            </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <button type="button"
+                    class="destination-arrow destination-arrow-right"
+                    aria-label="Next destinations">
+                ›
+            </button>
+
+        </div>
+
+    </section>
+
+
+        <div class="destinations-action">
+
+            <a th:href="@{/destinations}"
+               class="btn-explore">
+
+                Explore All Destinations
+
+                <span>→</span>
+
+            </a>
+
+        </div>
+
+    </section>
+
+</main>
+
+<div th:replace="~{fragments/chatbot :: chatbot}"></div>
+<script th:src="@{/js/chatbot.js}"></script>
+<script th:src="@{/js/destinations-carousel.js}"></script>
+
+</body>
+</html>

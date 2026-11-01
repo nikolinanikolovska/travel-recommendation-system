@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Favorites | Travelly</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<main class="favorites-page">
+
+    <!-- HEADER -->
+    <section class="favorites-header">
+
+        <span class="section-label">YOUR COLLECTION</span>
+
+        <h1>
+            Places you
+            <span>love.</span>
+        </h1>
+
+        <p>
+            Keep your favorite destinations in one place and
+            come back whenever you're ready to plan your next journey.
+        </p>
+
+    </section>
+
+
+    <!-- ERROR -->
+    <p th:if="${error}"
+       th:text="${error}"
+       class="favorites-error">
+    </p>
+
+
+    <!-- EMPTY STATE -->
+    <section class="empty-favorites"
+             th:if="${favorites.isEmpty()}">
+
+        <div class="empty-heart">♡</div>
+
+        <h2>Your collection is empty</h2>
+
+        <p>
+            You haven't saved any destinations yet.
+            Start exploring and save the places you'd love to visit.
+        </p>
+
+        <a th:href="@{/destinations}" class="btn-explore">
+            Explore Destinations
+            <span>→</span>
+        </a>
+
+    </section>
+
+
+    <!-- FAVORITES GRID -->
+    <section class="favorites-grid"
+             th:if="${!favorites.isEmpty()}">
+
+        <article class="favorite-card"
+                 th:each="favorite : ${favorites}">
+
+            <!-- IMAGE -->
+            <div class="favorite-image">
+
+                <img th:src="${favorite.destination.imageUrl}"
+                     th:alt="${favorite.destination.name}">
+
+
+
+                <!-- ACTIVE HEART -->
+                <div class="favorite-heart active">
+                    ♥
+                </div>
+
+            </div>
+
+
+            <!-- CONTENT -->
+            <div class="favorite-content">
+
+                <span class="favorite-country"
+                      th:text="${favorite.destination.country}">
+                    Country
+                </span>
+
+                <h2 th:text="${favorite.destination.name}">
+                    Destination
+                </h2>
+
+                <p class="favorite-description"
+                   th:text="${favorite.destination.description}">
+                    Destination description
+                </p>
+
+
+                <!-- TAGS -->
+                <div class="favorite-tags">
+
+                    <span class="destination-tag"
+                          th:text="${favorite.destination.travelType}">
+                        Travel Type
+                    </span>
+
+                    <span class="destination-tag"
+                          th:text="${favorite.destination.season}">
+                        Season
+                    </span>
+
+                </div>
+
+
+                <!-- DETAILS -->
+                <div class="favorite-details">
+
+                    <div class="favorite-detail">
+
+                        <span class="detail-label">
+                            FROM
+                        </span>
+
+                        <strong>
+                            <span th:text="${favorite.destination.averageDailyCost}">
+                                0
+                            </span>
+                            € / day
+                        </strong>
+
+                    </div>
+
+
+                    <div class="favorite-detail">
+
+                        <span class="detail-label">
+                            IDEAL STAY
+                        </span>
+
+                        <strong>
+                            <span th:text="${favorite.destination.recommendedDuration}">
+                                0
+                            </span>
+                            days
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <!-- REMOVE -->
+                <form th:action="@{/favorites/remove}"
+                      method="post"
+                      class="remove-favorite-form">
+
+                    <input type="hidden"
+                           name="favoriteId"
+                           th:value="${favorite.id}">
+
+                    <button type="submit"
+                            class="remove-favorite-button">
+
+                        <span>♥</span>
+
+                        Remove from Favorites
+
+                    </button>
+
+                </form>
+
+            </div>
+
+        </article>
+
+    </section>
+
+
+    <!-- BOTTOM ACTIONS -->
+    <div class="favorites-actions"
+         th:if="${!favorites.isEmpty()}">
+
+        <a th:href="@{/destinations}"
+           class="btn-explore">
+
+            Discover More Destinations
+            <span>→</span>
+
+        </a>
+
+    </div>
+
+</main>
+
+</body>
+</html>

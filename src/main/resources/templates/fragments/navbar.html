@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<nav th:fragment="navbar" class="navbar">
+
+    <a th:href="@{/}" class="logo">
+        <span class="logo-icon">✦</span>
+        Travelly
+    </a>
+
+    <div class="nav-links">
+        <a th:href="@{/}">Home</a>
+        <a th:href="@{/recommendations}">Discover</a>
+        <a th:href="@{/destinations}">Destinations</a>
+    </div>
+
+    <div class="nav-user">
+
+        <!-- Guest -->
+        <span th:if="${session.user == null}">
+            <a th:href="@{/login}" class="login-link">Login</a>
+            <a th:href="@{/register}" class="register-btn">Register</a>
+        </span>
+
+        <!-- Logged-in user -->
+        <span th:if="${session.user != null}" class="logged-user">
+
+            <span class="welcome">
+                Welcome, <strong th:text="${session.user.username}"></strong>
+            </span>
+
+           <a th:href="@{/favorites}" class="favorites-nav-link">
+            <span class="favorites-nav-heart">♡</span>
+                Favorites
+           </a>
+
+            <a th:href="@{/logout}" class="logout-link">Logout</a>
+
+        </span>
+
+    </div>
+
+</nav>
+
+</body>
+</html>
